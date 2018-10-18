@@ -5,8 +5,11 @@ from django.core.validators import RegexValidator
 class Member(models.Model):
     card_number = models.IntegerField()
     first_name = models.CharField(max_length=200)
+    #TODO: Middle Initial
     last_name = models.CharField(max_length=200)
+    #TODO: Age
     address = models.TextField()
+    #TODO: Address 2
     city = models.TextField()
     states = (
         ('AL', 'Alabama'),
@@ -72,6 +75,7 @@ class Member(models.Model):
     )
     state = models.CharField(max_length=2, choices=states)
     zipcode = models.IntegerField()
+    #TODO: Undeliverable
     membership_choices = (
         ('BL', 'Bronze Legacy'),
         ('GL', 'Gold Legacy'),
@@ -90,3 +94,10 @@ class Member(models.Model):
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name
+
+
+class MemberInfo(models.Model):
+    card_number = models.ForeignKey(Member, on_delete=models.CASCADE)
+    paid_by_post = models.BooleanField()
+    paid_by_post_date = models.DateField()
+    emailed = models.BooleanField()
